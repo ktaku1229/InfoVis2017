@@ -3,14 +3,41 @@
     <title>task1</title>
   </head>
   <body>
+  x0=<input type="number" id="x0">, y0=<input type="number" id="y0">, z0=<input type="number" id="z0"><br>
+  x1=<input type="number" id="x1">, y1=<input type="number" id="y1">, z1=<input type="number" id="z1"><br>
+  x2=<input type="number" id="x2">, y2=<input type="number" id="y2">, z2=<input type="number" id="z2"><br>
+  <input type="button" onclick="area()" value="calculate"><br>
+  <p id="result"></p>
     <script src="vec3.js"></script>
+    <script src="area.js"></script>
     <script>
-      var x = 5, y = 4, z = 8;
-      var v = new Vec3(x,y,z);
-      var min = v.min();
-      var mid = v.mid();
-      var max = v.max();
-      document.write("min=" + min + ", mid=" + mid + ", max=" + max)
+      function area() {
+          //var x0 = 1, y0 = 2, z0 = 3;
+          //var x1 = -1, y1 = 0, z1 = 3;
+          //var x2 = 1, y2 = 2, z2 = -3;
+          var x0, y0, z0;
+          var x1, y1, z1;
+          var x2, y2, z2;
+          x0 = document.getElementById("x0").value;
+          y0 = document.getElementById("y0").value;
+          z0 = document.getElementById("z0").value;
+          x1 = document.getElementById("x1").value;
+          y1 = document.getElementById("y1").value;
+          z1 = document.getElementById("z1").value;
+          x2 = document.getElementById("x2").value;
+          y2 = document.getElementById("y2").value;
+          z2 = document.getElementById("z2").value;
+
+          if(x0 == "" || y0 == "" || z0 == "" || x1=="" || y1=="" || z1=="" || x2 =="" || y2 == "" || z2 == "")
+              document.getElementById("result").innerHTML = "input error";
+          else {
+              var v0 = new Vec3(x0, y0, z0);
+              var v1 = new Vec3(x1, y1, z1);
+              var v2 = new Vec3(x2, y2, z2);
+              var S = AreaOfTriangle(v0, v1, v2);
+              document.getElementById("result").innerHTML = S;
+          }
+      }
     </script>
   </body>
 </html>
