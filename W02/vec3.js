@@ -62,5 +62,22 @@ Vec3.prototype.max = function()
     }
     return max;
 }
+/*
+Vec3.prototype.crossProduct = function(v1, v2)
+{
+    var x = v1.y*v2.z - v1.z*v2.y;
+    var y = v1.z*v2.x - v1.x*v2.z;
+    var z = v1.x*v2.y - v1.y*v2.x;
+    var v = new Vec3(x,y,z);
+    return v;
+}
+
+Vec3.prototype.norm = function ()
+{
+    var tmp = this.x*this.x + this.y*this.y + this.z*this.z;
+    return Math.sqrt(tmp);
+}*/
+
+
     
 	
