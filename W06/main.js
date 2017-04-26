@@ -68,17 +68,25 @@ function main()
     for(var i=0; i<12; i++){
 	geometry.faces[i].color = new THREE.Color(1,1,1);
     }
+
+    geometry.computeFaceNormals();
     
     var cube = new THREE.Mesh( geometry, material );
     scene.add( cube );
+
+    var light = new THREE.DirectionalLight(0xff0000);
+    light.position.set(10,10,10);
+    scene.add(light);
+
+
 
     loop();
 
     function loop()
     {
         requestAnimationFrame( loop );
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+        cube.rotation.x += 0.001;
+        cube.rotation.y += 0.001;
         renderer.render( scene, camera );
     }
 }
