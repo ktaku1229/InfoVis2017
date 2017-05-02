@@ -63,7 +63,7 @@ function main()
 	geometry.faces.push(f[i]);
     }
  
-    var material = new THREE.MeshBasicMaterial();
+    var material = new THREE.MeshPhongMaterial();
     material.vertexColors = THREE.FaceColors;
     for(var i=0; i<12; i++){
 	geometry.faces[i].color = new THREE.Color(1,1,1);
@@ -74,7 +74,7 @@ function main()
     var cube = new THREE.Mesh( geometry, material );
     scene.add( cube );
 
-    var light = new THREE.DirectionalLight(0xff0000);
+    var light = new THREE.DirectionalLight(0xF4FA58);
     light.position.set(10,10,10);
     scene.add(light);
 
@@ -85,8 +85,8 @@ function main()
     function loop()
     {
         requestAnimationFrame( loop );
-        cube.rotation.x += 0.001;
-        cube.rotation.y += 0.001;
+        cube.rotation.x += 0.005;
+        cube.rotation.y += 0.005;
         renderer.render( scene, camera );
     }
 }

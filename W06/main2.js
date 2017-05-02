@@ -75,7 +75,7 @@ function main()
     scene.add( cube );
 
     var light = new THREE.DirectionalLight(0xF4FA58);
-    light.position.set(1,1,1);
+    light.position.set(10,10,10);
     scene.add(light);
 
     document.addEventListener('mousedown', mouse_down_event);
