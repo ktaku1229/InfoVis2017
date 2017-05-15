@@ -3,8 +3,96 @@
     <title>W08: task2</title>
 </head>
 <body>
+<div class="space"></div>
+<div class="text" align="center">Gouraud shading</div>
+<div class="text" align="center">Phong shading</div>
+<div class="canvases">
+    <div class="text2" valign="middle">Lambertian<br>Reflection</div>
+    <div class="canvas" id="canvas"></div>
+    <div class="canvas" id="canvas2"></div>
+</div>
+<div class="canvases">
+    <div class="text2">Phong<br>Reflection</div>
+    <div class="canvas" id="canvas3"></div>
+    <div class="canvas" id="canvas4"></div>
+</div>
 <script src="three.min.js"></script>
 
+<!-- Gouraud Shading, Lambertian Reflection -->
+<script type="x-shader/x-vertex" id="gouraud_Lam.vert">
+    varying vec3 point_color;
+    varying vec4 point_position;
+    varying vec3 normal_vector;
+    uniform vec3 light_position;
+
+    vec3 LambertianReflection(vec3 C, vec3 L,vec3 N){
+        float ka = 0.4;
+        float kd = 0.6;
+
+        float dd = max(dot(N, L), 0.0);
+        float Ia = ka;
+        float Id = kd * dd;
+        return C * (Ia + Id);
+    }
+
+    void main(){
+        point_position = modelViewMatrix * vec4(position, 1.0);
+        normal_vector = normalMatrix * normal;
+
+        vec3 C = color;
+        vec3 L = normalize(light_position - point_position.xyz);
+        vec3 N = normalize(normal_vector);
+        point_color = LambertianReflection(C, L, N);
+        gl_Position = projectionMatrix * point_position;
+    }
+</script>
+
+<!-- Gouraud Shading, Phong Reflection -->
+<script type="x-shader/x-vertex" id="gouraud_Phong.vert">
+    varying vec3 point_color;
+    varying vec4 point_position;
+    varying vec3 normal_vector;
+    uniform vec3 light_position;
+
+    vec3 PhongReflection(vec3 C, vec3 L, vec3 N){
+        float ka = 0.3;
+        float kd = 0.5;
+        float ks = 0.8;
+        float n = 50.0;
+
+        vec3 R = reflect( -L, N);
+        float dd = max(dot(N, L), 0.0);
+        float ds = pow(max(dot(R,N), 0.0), n);
+        if(dd <= 0.0) { ds = 0.0; }
+
+        float Ia = ka;
+        float Id = kd *dd;
+        float Is = ks * ds;
+        return C*(Ia + Id + Is);
+    }
+
+    void main(){
+        point_position = modelViewMatrix * vec4(position, 1.0);
+        normal_vector = normalMatrix * normal;
+
+        vec3 C = color;
+        vec3 L = normalize(light_position - point_position.xyz);
+        vec3 N = normalize(normal_vector);
+        point_color = PhongReflection(C, L, N);
+        gl_Position = projectionMatrix * point_position;
+    }
+</script>
+
+<!-- Gouraud shading -->
+<script type="x-shader/x-fragment" id="gouraud.frag">
+    varying vec3 point_color;
+
+    void main(){
+        gl_FragColor = vec4(point_color, 1.0);
+    }
+</script>
+
+<!-- Phong shading -->
 <script type="x-shader/x-vertex" id="phong.vert">
     varying vec3 point_color;
     varying vec4 point_position;
@@ -20,7 +108,9 @@
     }
 </script>
 
-<script type="x-shader/x-fragment" id="phong.frag">
+
+<!-- Phong shading, Lambertian Reflection -->
+<script type="x-shader/x-fragment" id="phong_Lam.frag">
     varying vec3 point_color;
     varying vec4 point_position;
     varying vec3 normal_vector;
@@ -46,7 +136,42 @@
     }
 </script>
 
+<!-- Phong shading, Phong Reflection -->
+<script type="x-shader/x-fragment" id="phong_Phong.frag">
+    varying vec3 point_color;
+    varying vec4 point_position;
+    varying vec3 normal_vector;
+    uniform vec3 light_position;
+
+    vec3 PhongReflection(vec3 C, vec3 L, vec3 N){
+        float ka = 0.3;
+        float kd = 0.5;
+        float ks = 0.8;
+        float n = 50.0;
+
+        vec3 R = reflect( -L, N);
+        float dd = max(dot(N, L), 0.0);
+        float ds = pow(max(dot(R,N), 0.0), n);
+        if(dd <= 0.0) { ds = 0.0; }
+
+        float Ia = ka;
+        float Id = kd *dd;
+        float Is = ks * ds;
+        return C*(Ia + Id + Is);
+    }
+
+    void main(){
+        vec3 C = point_color;
+        vec3 L = normalize(light_position - point_position.xyz);
+        vec3 N = normalize(normal_vector);
+
+        vec3 shaded_color = PhongReflection(C,L,N);
+        gl_FragColor = vec4(shaded_color, 1.0);
+    }
+</script>
+
 <script src="main2.js"></script>
+<link rel="stylesheet" type="text/css" href="task2.css">
 <script>
     main();
 </script>

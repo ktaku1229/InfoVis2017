@@ -1,0 +1,29 @@
+.space{
+    width:100px;
+    height: 24px;
+    float:left;
+}
+
+.text{
+    width: 300px;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.text2{
+    width: 100px;
+    height: 300px;
+    float:left;
+}
+
+.canvas {
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    float: left;
+}
+
+.canvases{
+    clear: both;
+ }
