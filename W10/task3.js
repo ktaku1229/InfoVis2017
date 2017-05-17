@@ -45,7 +45,7 @@ function main()
 
     // Create color map
     var cmap = [];
-    
+
      for ( var i = 0; i < 256; i++ )
      {
      var S = i / 255.0; // [0,1]
